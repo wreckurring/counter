@@ -30,10 +30,7 @@ function increase() {
     updateCount();
 }
 
-
 function createFloatingNumber(value) {
-    const rect = counterBox.getBoundingClientRect();
-
     const floating = document.createElement("div");
     floating.className = "floating-number";
     floating.textContent = value;
@@ -50,7 +47,40 @@ function createFloatingNumber(value) {
     }, 1400);
 }
 
+let holdInterval = null;
+let holdTimeout = null;
+
+const HOLD_DELAY = 250; 
+const HOLD_SPEED = 120; 
+
+function startHold(action) {
+    holdTimeout = setTimeout(() => {
+        holdInterval = setInterval(action, HOLD_SPEED);
+    }, HOLD_DELAY);
+}
+
+function stopHold() {
+    clearTimeout(holdTimeout);
+    clearInterval(holdInterval);
+
+    holdTimeout = null;
+    holdInterval = null;
+}
 
 resetBtn.addEventListener("click", reset);
-increaseBtn.addEventListener("click", increase);
-decreaseBtn.addEventListener("click", decrease);
+
+increaseBtn.addEventListener("mousedown", () => startHold(increase));
+increaseBtn.addEventListener("mouseup", stopHold);
+increaseBtn.addEventListener("mouseleave", stopHold);
+
+increaseBtn.addEventListener("click", () => {
+    if (!holdInterval) increase();
+});
+
+decreaseBtn.addEventListener("mousedown", () => startHold(decrease));
+decreaseBtn.addEventListener("mouseup", stopHold);
+decreaseBtn.addEventListener("mouseleave", stopHold);
+
+decreaseBtn.addEventListener("click", () => {
+    if (!holdInterval) decrease();
+});
