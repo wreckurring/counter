@@ -18,9 +18,11 @@ function reset() {
 
 function decrease() {
     if (count <= 0) {
+        stopHold(); // 
         alert("Enough kid");
         return;
     }
+
     count--;
     updateCount();
 }
@@ -50,7 +52,7 @@ function createFloatingNumber(value) {
 let holdInterval = null;
 let holdTimeout = null;
 
-const HOLD_DELAY = 250; 
+const HOLD_DELAY = 250;
 const HOLD_SPEED = 120; 
 
 function startHold(action) {
