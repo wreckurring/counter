@@ -33,3 +33,26 @@ body {
     cursor: pointer;
 }
 
+.floating-number {
+    position: fixed;
+    font-size: 8rem;
+    font-weight: bold;
+    color: black;
+    pointer-events: none;
+    opacity: 0;
+    animation: floatUp 1.4s ease-out forwards;
+}
+
+@keyframes floatUp {
+    0% {
+        transform: translateY(60px);
+        opacity: 0;
+    }
+    20% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-300px);
+        opacity: 0;
+    }
+}
