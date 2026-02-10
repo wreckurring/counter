@@ -6,6 +6,8 @@ const counterBox = document.getElementById("counterBox");
 
 let count = 0;
 
+/* ================= COUNTER UPDATE ================= */
+
 function updateCount() {
     counter.textContent = count;
     createFloatingNumber(count);
@@ -18,8 +20,8 @@ function reset() {
 
 function decrease() {
     if (count <= 0) {
-        stopHold(); // 
-        alert("Enough kid");
+        stopHold();
+        triggerLimitFeedback();
         return;
     }
 
@@ -32,6 +34,8 @@ function increase() {
     updateCount();
 }
 
+/* ================= FLOATING NUMBER ================= */
+
 function createFloatingNumber(value) {
     const floating = document.createElement("div");
     floating.className = "floating-number";
@@ -39,7 +43,6 @@ function createFloatingNumber(value) {
 
     const randomX = Math.random() * window.innerWidth;
     floating.style.left = randomX + "px";
-
     floating.style.top = window.innerHeight + "px";
 
     document.body.appendChild(floating);
@@ -49,11 +52,23 @@ function createFloatingNumber(value) {
     }, 1400);
 }
 
+/* ================= SHAKE FEEDBACK ================= */
+
+function triggerLimitFeedback() {
+    counterBox.classList.add("shake", "red-glow");
+
+    setTimeout(() => {
+        counterBox.classList.remove("shake", "red-glow");
+    }, 300);
+}
+
+/* ================= HOLD BEHAVIOR ================= */
+
 let holdInterval = null;
 let holdTimeout = null;
 
 const HOLD_DELAY = 250;
-const HOLD_SPEED = 120; 
+const HOLD_SPEED = 120;
 
 function startHold(action) {
     holdTimeout = setTimeout(() => {
@@ -69,7 +84,11 @@ function stopHold() {
     holdInterval = null;
 }
 
+/* ================= EVENT LISTENERS ================= */
+
 resetBtn.addEventListener("click", reset);
+
+/* -------- INCREASE -------- */
 
 increaseBtn.addEventListener("mousedown", () => startHold(increase));
 increaseBtn.addEventListener("mouseup", stopHold);
@@ -78,6 +97,8 @@ increaseBtn.addEventListener("mouseleave", stopHold);
 increaseBtn.addEventListener("click", () => {
     if (!holdInterval) increase();
 });
+
+/* -------- DECREASE -------- */
 
 decreaseBtn.addEventListener("mousedown", () => startHold(decrease));
 decreaseBtn.addEventListener("mouseup", stopHold);

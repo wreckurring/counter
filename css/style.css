@@ -1,6 +1,6 @@
 * {
     margin: 0;
-    padding:0;
+    padding: 0;
     box-sizing: border-box;
     font-family: sans-serif;
 }
@@ -19,6 +19,7 @@ body {
     border-radius: 8px;
     text-align: center;
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    transition: box-shadow 0.2s ease;
 }
 
 #count {
@@ -33,9 +34,11 @@ body {
     cursor: pointer;
 }
 
+/* ================= FLOATING NUMBER ================= */
+
 .floating-number {
     position: fixed;
-    font-size: 8rem;
+    font-size: 4rem;
     font-weight: bold;
     color: black;
     pointer-events: none;
@@ -55,4 +58,22 @@ body {
         transform: translateY(-300px);
         opacity: 0;
     }
+}
+
+/* ================= SHAKE + RED GLOW ================= */
+
+.shake {
+    animation: shake 0.3s ease;
+}
+
+@keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-6px); }
+    50% { transform: translateX(6px); }
+    75% { transform: translateX(-4px); }
+    100% { transform: translateX(0); }
+}
+
+.red-glow {
+    box-shadow: 0 0 0 2px #ff4d4d, 0 0 15px rgba(255, 77, 77, 0.6);
 }
