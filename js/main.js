@@ -5,6 +5,7 @@ const decreaseBtn = document.getElementById("decrease");
 const counterBox = document.getElementById("counterBox");
 
 let count = 0;
+let zeroHitCount = 0;
 
 /* ================= COUNTER UPDATE ================= */
 
@@ -13,23 +14,39 @@ function updateCount() {
     createFloatingNumber(count);
 }
 
+/* ================= RESET ================= */
+
 function reset() {
     count = 0;
+    zeroHitCount = 0;
     updateCount();
 }
+
+/* ================= DECREASE ================= */
 
 function decrease() {
     if (count <= 0) {
         stopHold();
+        zeroHitCount++;
+
         triggerLimitFeedback();
+
+        if (zeroHitCount >= 3) {
+            showEnoughText();
+        }
+
         return;
     }
 
+    zeroHitCount = 0;
     count--;
     updateCount();
 }
 
+/* ================= INCREASE ================= */
+
 function increase() {
+    zeroHitCount = 0;
     count++;
     updateCount();
 }
@@ -47,9 +64,7 @@ function createFloatingNumber(value) {
 
     document.body.appendChild(floating);
 
-    setTimeout(() => {
-        floating.remove();
-    }, 1400);
+    setTimeout(() => floating.remove(), 1400);
 }
 
 /* ================= SHAKE FEEDBACK ================= */
@@ -60,6 +75,18 @@ function triggerLimitFeedback() {
     setTimeout(() => {
         counterBox.classList.remove("shake", "red-glow");
     }, 300);
+}
+
+/* ================= BIG ENOUGH TEXT ================= */
+
+function showEnoughText() {
+    const text = document.createElement("div");
+    text.className = "enough-text";
+    text.textContent = "ENOUGH KID!";
+
+    document.body.appendChild(text);
+
+    setTimeout(() => text.remove(), 1200);
 }
 
 /* ================= HOLD BEHAVIOR ================= */

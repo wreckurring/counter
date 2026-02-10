@@ -60,6 +60,40 @@ body {
     }
 }
 
+/* ================= BIG WARNING TEXT ================= */
+
+.enough-text {
+    position: fixed;
+    top: -150px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 9rem;
+    font-weight: 900;
+    color: black;
+    pointer-events: none;
+    opacity: 0;
+    animation: dropDown 1.2s ease-out forwards;
+    white-space: nowrap;
+}
+
+@keyframes dropDown {
+    0% {
+        top: -150px;
+        opacity: 0;
+    }
+    30% {
+        opacity: 1;
+    }
+    60% {
+        top: 10%;
+        opacity: 1;
+    }
+    100% {
+        top: 5%;
+        opacity: 0;
+    }
+}
+
 /* ================= SHAKE + RED GLOW ================= */
 
 .shake {
