@@ -67,29 +67,32 @@ body {
     top: -150px;
     left: 50%;
     transform: translateX(-50%);
-    font-size: 9rem;
+    text-align: center;
+    font-size: clamp(3rem, 9vw, 9rem);
     font-weight: 900;
     color: black;
     pointer-events: none;
     opacity: 0;
     animation: dropDown 1.2s ease-out forwards;
     white-space: nowrap;
+    max-width: 90vw;
+    overflow-wrap: break-word;
 }
 
 @keyframes dropDown {
     0% {
-        top: -150px;
+        top: -12vh;
         opacity: 0;
     }
     30% {
         opacity: 1;
     }
     60% {
-        top: 10%;
+        top: clamp(8%, 12vh, 15%);
         opacity: 1;
     }
     100% {
-        top: 5%;
+        top: clamp(4%, 6vh, 8%);
         opacity: 0;
     }
 }
