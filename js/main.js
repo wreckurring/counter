@@ -3,9 +3,11 @@ const resetBtn = document.getElementById("reset");
 const increaseBtn = document.getElementById("increase");
 const decreaseBtn = document.getElementById("decrease");
 const counterBox = document.getElementById("counterBox");
+const enoughSound = document.getElementById("enoughSound");
 
 let count = 0;
-let zeroHitCount = 0;
+let zeroHitCount = 0; 
+let soundHitCount = 0; 
 
 /* ================= COUNTER UPDATE ================= */
 
@@ -19,6 +21,7 @@ function updateCount() {
 function reset() {
     count = 0;
     zeroHitCount = 0;
+    soundHitCount = 0;
     updateCount();
 }
 
@@ -27,7 +30,9 @@ function reset() {
 function decrease() {
     if (count <= 0) {
         stopHold();
+
         zeroHitCount++;
+        soundHitCount++;
 
         triggerLimitFeedback();
 
@@ -35,10 +40,17 @@ function decrease() {
             showEnoughText();
         }
 
+        if (soundHitCount >= 5) {
+            playEnoughSound();
+            soundHitCount = 0;
+        }
+
         return;
     }
 
     zeroHitCount = 0;
+    soundHitCount = 0;
+
     count--;
     updateCount();
 }
@@ -47,6 +59,8 @@ function decrease() {
 
 function increase() {
     zeroHitCount = 0;
+    soundHitCount = 0;
+
     count++;
     updateCount();
 }
@@ -86,7 +100,25 @@ function showEnoughText() {
 
     document.body.appendChild(text);
 
-    setTimeout(() => text.remove(), 1200);
+    setTimeout(() => text.remove(), 2000);
+}
+
+/* ================= PLAY SOUND ================= */
+
+function playEnoughSound() {
+    if (!enoughSound) return;
+
+    try {
+        enoughSound.pause();
+        enoughSound.currentTime = 0;
+
+        const playPromise = enoughSound.play();
+        if (playPromise !== undefined) {
+            playPromise.catch(() => {
+                setTimeout(() => enoughSound.play().catch(() => {}), 50);
+            });
+        }
+    } catch (e) {}
 }
 
 /* ================= HOLD BEHAVIOR ================= */
